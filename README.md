@@ -1,257 +1,103 @@
-# FinPay Accelerated Backend L&D Workspace: Phase 1 & 2
+# README: Onboarding & Technical Training Guide (Updated)
+## Topic: Microservices Architecture with Spring Boot and MongoDB
 
-Welcome to the FinPay 2-Week Accelerated Backend Engineering training repository. This workspace is explicitly configured for engineers transitioning from Python to the Java enterprise ecosystem. Over this 14-hour training track, you will transform dynamic data processing patterns into high-precision, statically typed microservices.
+Welcome to your technical onboarding training! This repository serves as your direct instruction map for mastering the design, development, and deployment of scalable enterprise microservices using **Spring Boot**, **Spring Cloud**, and **MongoDB**. 
 
----
-
-## 🎯 Core Training Objectives
-
-By the completion of this curriculum, you will be able to:
-* **Navigate Maven Lifecycles:** Master the structural transition from `pip` and `venv` environments to declarative XML dependency resolution engines (`pom.xml`).
-* **Handle Statically-Typed Collections:** Map dynamic structures safely into thread-safe memory matrix structures like `ConcurrentHashMap` and data classes.
-* **Implement Spring MVC Architecture:** Trace data pipelines through a structural request layout using the `DispatcherServlet`, explicit controller layers, and business logic services.
-* **Abstract Database Persistence:** Model BSON transactional schemas using Spring Data MongoDB Object-Document Mapping interfaces.
-* **Decouple and Orchestrate Distributed Services:** Split monolithic runtime blocks into two isolated microservices communicating synchronously via reactive `WebClient` nodes.
+Please read through this document thoroughly to prepare your machine before day one and understand the evaluation parameters.
 
 ---
 
-## 💻 Local Machine Pre-requisites
+## 🛠️ Required Environment & Software Installation
 
-Ensure your system environment matches these target engineering tool dependencies before running compilation commands:
+To maximize your time during the hands-on labs, you must have your local environment fully configured prior to starting the curriculum. **Do not use outdated Java 8 or Java 11 versions.**
 
-* **Java Development Kit (JDK):** Version 17 LTS (Eclipse Temurin preferred).
-* **Build Automation Tool:** Apache Maven 3.8+.
-* **Containerization Engine:** Docker Desktop or Docker Engine daemon.
-* **Network Query Testing Client:** Native terminal `curl` or Postman.
+### 1. Java Development Kit (JDK)
+* **Required Version:** **JDK 17** or **JDK 21** (Long Term Support versions).
+* **Installation:** Install via [SDKMAN!](https://sdkman.io/) (`sdk install java 17-open`) or download directly from [Eclipse Temurin (Adoptium)](https://adoptium.net/).
+* **Verification:** Run `java -version` in your terminal. Ensure the output points to version 17 or higher.
 
-# Environment Prerequisites & Component Installation Guide
+### 2. Build Tool
+* **Required Tool:** **Apache Maven (Version 3.6.3 or higher)**.
+* **Alternative:** You may use the built-in Maven Wrapper (`./mvnw`) provided in your bootstrapped projects, but a local installation is highly recommended.
 
-Before compiling or running the microservices, your local workstation must have a compatible Java Runtime, the Apache Maven build engine, and a Docker container daemon installed.
+### 3. Integrated Development Environment (IDE)
+Choose one of the following preferred enterprise IDEs:
+* **IntelliJ IDEA** (Community or Ultimate Edition with Spring plugins enabled).
+* **Spring Tool Suite (STS)** or **VS Code** with the *Spring Boot Extension Pack* installed.
 
----
-
-## 🛠️ Required Component Stack
-
-* **Java Development Kit (JDK):** Version 17 LTS (Eclipse Temurin build distribution).
-* **Build Automation Tool:** Apache Maven (Version 3.x).
-* **Containerization Engine:** Docker Desktop or Docker Engine daemon.
-* **Network Command Utility:** Terminal-based `curl` or Postman for REST API verification.
-
----
-
-## 📥 Explicit Installation Instructions
-
-Select the execution path below that matches your local workstation operating system:
-
-### 🍏 macOS Installation (Using Homebrew)
-
-Open your terminal app and execute the following commands sequence:
-
-1. **Install Eclipse Temurin OpenJDK 17:**
-   ```bash
-   brew install --cask temurin@17
-   ```
-
-2. **Install Apache Maven Build Tool:**
-   ```bash
-   brew install maven
-   ```
-
-3. **Install Docker Desktop:**
-   Download the visual desktop setup app matching your hardware processor type (Apple Silicon or Intel) directly from the [Official Docker Desktop for Mac Portal](https://www.docker.com/products/docker-desktop/).
-
----
-
-### 🪟 Windows Installation (Using Winget Windows Package Manager)
-
-Open your Command Prompt (`cmd`) or PowerShell terminal running with Administrator privileges:
-
-1. **Install Eclipse Temurin OpenJDK 17:**
-   ```cmd
-   winget install Eclipse.Temurin.17.JDK
-   ```
-
-2. **Install Apache Maven Build Tool:**
-   ```cmd
-   winget install Apache.Maven
-   ```
-
-3. **Install Docker Desktop:**
-   ```cmd
-   winget install Docker.DockerDesktop
-   ```
-   *Note:* Ensure you restart your machine after installing Docker Desktop to let the WSL2 (Windows Subsystem for Linux) backend integrations bind correctly.
-
----
-
-### 🐧 Linux Installation (Using Debian/Ubuntu APT Package Manager)
-
-Open your shell window and execute the following administration commands:
-
-1. **Install OpenJDK 17 Kit:**
-   ```bash
-   sudo apt-get update && sudo apt-get install -y openjdk-17-jdk
-   ```
-
-2. **Install Apache Maven Build Tool:**
-   ```bash
-   sudo apt-get install -y maven
-   ```
-
-3. **Install Docker Engine and Compose Plugin:**
-   ```bash
-   sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-   ```
-
----
-
-## 🔍 Local Tooling Verification Loop
-
-To guarantee that paths, environmental runtime properties, and binaries are registered on your shell session context profile, open a brand-new terminal window and type the verification checks below:
-
-1. **Verify Java Runtime Environment Engine (JRE):**
-   ```bash
-   java -version
-   ```
-   *Expected Console Confirmation:* `openjdk version "17.x.x"`
-
-2. **Verify Maven Build Environment Tooling:**
-   ```bash
-   mvn -version
-   ```
-   *Expected Console Confirmation:* `Apache Maven 3.x.x`
-
-3. **Verify Local Docker Operational Daemon Health:**
-   ```bash
-   docker --version && docker compose version
-   ```
-   *Expected Console Confirmation:* Prints active system application container version tags.
-
----
-
-## 🚀 Environment Local Setup
-
-### 1. Initialize Infrastructure Container
-Spin up your local detached MongoDB instance from the repository root:
-```bash
-docker compose up -d
-```
-*Verification:* Run `docker ps` to verify that container `local-mongo` is healthy and listening on port `27017`.
-
-### 2. Compile and Package Workspace Modules
-Execute a full lifecycle compilation scan across the entire multi-module codebase layout from the root workspace directory:
-```bash
-mvn clean package
-```
-
-### 3. Run Microservices Concurrently
-Open two separate terminal windows to boot both isolated nodes simultaneously:
-
-* **Terminal 1 (Wallet Microservice Node):**
+### 4. Database & Runtime Containers
+We do not use shared cloud databases for our training sandbox environments. You will run your infrastructure locally:
+* **Docker Desktop:** Ensure Docker is running on your machine.
+* **Database Image:** Pull the official MongoDB image using your terminal:
   ```bash
-  cd wallet-service
-  mvn spring-boot:run
+  docker pull mongo:latest
   ```
-  *Listens on HTTP Interface:* `http://localhost:8081`
-
-* **Terminal 2 (Ledger Microservice Node):**
+* **Local Run Command:** Spin up your test instance with the following command:
   ```bash
-  cd ledger-service
-  mvn spring-boot:run
+  docker run -d --name local-mongo -p 27017:27017 mongo:latest
   ```
-  *Listens on HTTP Interface:* `http://localhost:8082`
+
+### 5. API Testing Tools
+* Download and install **Postman** or **Insomnia** to build and execute your microservice integration test suites.
 
 ---
 
-## 🧪 Functional Verification Verification Loop
+## 📅 The 2-Week Guided Curriculum
 
-Once both service nodes are up, run this terminal test pipeline using `curl` commands to confirm distributed system health:
+You will follow the structural learning path mapped directly from the official **Spring.io** ecosystem documentation and our production deployment blueprints.
 
-### 1. Seed Sandbox Account Entities
-```bash
-curl -X POST "http://localhost:8081/api/v1/wallets/create?walletId=ACC-101&initialDeposit=1500.00"
-curl -X POST "http://localhost:8081/api/v1/wallets/create?walletId=ACC-202&initialDeposit=500.00"
+```mermaid
+gantt
+    title Training Path: Spring Boot & MongoDB Microservices
+    dateFormat  YYYY-MM-DD
+    axisFormat Week %U
+    
+    section Week 1: Core Mechanics
+    Environment & Initializr Setup :active, w1d1, 2026-05-25, 1d
+    Spring Data MongoDB (ODM)     :crit, w1d2, after w1d1, 3d
+    REST Controllers & API Design :w1d3, after w1d2, 3d
+    
+    section Week 2: Distributed Cloud
+    Central Config & Discovery    :w2d1, 2026-06-01, 3d
+    System Integration & E2E Testing:crit, w2d2, after w2d1, 4d
 ```
 
-### 2. Fire Inter-Service Transfer Request
-Instruct the Wallet Service on Port 8081 to process an asset deduction, which triggers an out-of-band WebClient REST logging operation to the Ledger Service on Port 8082:
-```bash
-curl -X POST "http://localhost:8081/api/v1/wallets/transfer" \
-     -H "Content-Type: application/json" \
-     -d '{"sourceWalletId":"ACC-101","destinationWalletId":"ACC-202","transferAmount":250.00}'
-```
+### Mandatory Training Labs Checklist
+Trainees are required to successfully complete all **4 hands-on modules** in sequence:
 
-### 3. Audit Local MongoDB Record Isolation
-Query your isolated database container records directly to verify that the Ledger Service persisted the immutable transactional trail document successfully:
-```bash
-docker exec -it local-mongo mongosh --eval "db.getSiblingDB('finpay_ledger').audit_ledger.find().pretty()"
-```
-```
-```
+1. 🏁 **Lab 1: The Database Layer** Complete [Accessing Data with MongoDB](https://spring.io/guides/gs/accessing-data-mongodb/) to understand document mappings, document IDs, and standard CRUD repositories.
+2. 🏁 **Lab 2: The API Layer** Complete [Building a RESTful Web Service](https://spring.io/guides/gs/restservice/) to construct your API entry points and expose your MongoDB repositories via HTTP endpoints.
+3. 🏁 **Lab 3: Orchestration and Infrastructure** Complete [Centralized Configuration](https://spring.io/guides/gs/centralized-configuration/) & [Service Registration and Discovery](https://spring.io/guides/gs/service-registration-and-discovery/) to set up a central property server and configure a Netflix Eureka registry server.
+4. 🏁 **Lab 4: End-to-End System Integration** Complete the comprehensive production blueprint tutorial: [MongoDB Tutorial: Build a Microservices App With MongoDB](https://www.mongodb.com/docs/drivers/java/sync/current/integrations/spring-microservice/). This pulls every individual component together into a dynamic, multi-service application network.
 
 ---
 
-## 4. Git Repository Scaffolding Automation
+## 🎯 Hard Expectations & Graduation Criteria
 
-finpay-backend-workspace/
-├── .gitignore
-├── docker-compose.yml
-├── pom.xml (Root Parent POM)
-├── README.md
-├── wallet-service/
-│   ├── pom.xml (Module POM)
-│   └── src/
-│       └── main/
-│           ├── java/com/finpay/wallet/
-│           │   ├── WalletApplicationLauncher.java
-│           │   ├── config/
-│           │   ├── controller/
-│           │   ├── dto/
-│           │   └── service/
-│           └── resources/
-│               └── application.properties
-└── ledger-service/
-    ├── pom.xml (Module POM)
-    └── src/
-        └── main/
-            ├── java/com/finpay/ledger/
-            │   ├── LedgerApplicationLauncher.java
-            │   ├── controller/
-            │   ├── domain/
-            │   └── repository/
-            └── resources/
-                └── application.properties
+At the conclusion of this 2-week training cycle, you will present a working proof-of-concept (POC) application to your tech lead. You are expected to demonstrate complete competency in the following areas:
 
-To transform these structures into a tracking history without capturing build artifacts or transient local storage caches, copy and paste this complete script sequence into your terminal inside the root `finpay-backend-workspace/` folder:
+### 1. Database-per-Service Architecture
+* **Strict Rule:** No two microservices can read or write to the same MongoDB collection or database. 
+* You must demonstrate how your services pass data via REST protocols or inter-service communications using **OpenFeign** or **WebClient**, rather than direct data coupling.
 
+### 2. Proficient Schema Modeling (NoSQL)
+* You must explain your document indexing choices (`@Indexed`).
+* You must demonstrate proper architectural reasoning regarding when you chose to **Embed** documents versus when you chose to **Reference** documents (`@DocumentReference`) based on read/write complexity.
 
-```bash
-# Initializing Git Tracking Mechanics
-git init
+### 3. Service Independence & High Availability
+* Your services must not hardcode network ports or IP strings. They must resolve destinations using your **Eureka Service Registry**.
+* Your unified frontend requests must route cleanly through your **Spring Cloud API Gateway** layer on a single public port.
 
-# Writing Core Exclusion Matrices (.gitignore)
-cat << 'EOF' > .gitignore
-# Compilation Target Spaces
-target/
-*.jar
-*.war
-*.class
+### 4. Operational Monitoring
+* Every microservice built must incorporate the `spring-boot-starter-actuator` dependency. 
+* You will be asked to demonstrate how to monitor application health states using the `/actuator/health` check endpoints.
 
-# JetBrains and Eclipse IDE Core Metadata Caches
-.idea/
-*.iml
-.classpath
-.project
-.settings/
-.DS_Store
+---
 
-# Local Volatile Log Vectors
-*.log
-EOF
+## 🆘 Getting Help During Training
 
-# Capturing Initial Blueprint Baseline Commit
-git add .
-git commit -m "chore: scaffold multi-module maven structure, docker engine configs, and setup documentation"
-```
+* **Check the Reference Implementations:** Review the structural code blocks outlined inside the `reference-scaffolding/` directory of this repo.
+* **Official Docs First:** Always check the [Official Spring Projects Docs](https://spring.io/projects) before stack-overflowing an error. Spring Boot 3+ has structural differences from older legacy frameworks.
+* **Internal Slack Channel:** Post your exceptions, stack traces, and configuration files directly to `#eng-spring-boot-bootcamp`. 
 
-The Git repository setup is complete. Your engineering team can now pull this down, boot the core MongoDB container structure, and begin day-to-day module implementation tasks. Let me know if you would like me to generate the parent or child `pom.xml` configuration structures next!
+**Good luck, and happy coding!**
